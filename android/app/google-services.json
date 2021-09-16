@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "352017292049",
+    "project_id": "radiobarbaros",
+    "storage_bucket": "radiobarbaros.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352017292049:android:017ad1c6997563c7c6cab0",
+        "android_client_info": {
+          "package_name": "com.example.radiobarbaros"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "352017292049-ap82s3qppbfetnifqg0r8u723jcoegjr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.radiobarbaros",
+            "certificate_hash": "52294cfbff2ba2a1dd387b74030606d404ef48e9"
+          }
+        },
+        {
+          "client_id": "352017292049-ef09e37s6h7ishnaml7rel2m3lcuonur.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjQDZeQ-psuwuW7-H4B9XoSQzFcF8bwmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "352017292049-ef09e37s6h7ishnaml7rel2m3lcuonur.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
