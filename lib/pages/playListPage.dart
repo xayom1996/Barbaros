@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:radiobarbaros/controllers/home_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,13 +47,18 @@ class PlayListPage extends StatelessWidget{
 
                                 return ClipRRect(
                                   borderRadius: BorderRadius.circular(16.sp),
-                                  child: Image(
-                                    height: 40.h,
-                                    image: coverSong == '' || coverSong == null
-                                        ? AssetImage('assets/no-cover-wh.png') as ImageProvider
-                                        : NetworkImage(homeController.getCoverSong(song['songName'], song['artistName'])),
-                                    fit: BoxFit.cover,
-                                  ),
+                                  child: coverSong == '' || coverSong == null
+                                      ? SvgPicture.asset(
+                                        'assets/no-cover-wh.svg',
+                                        height: 40.h,
+                                        fit: BoxFit.cover,
+                                      )
+                                      : Image(
+                                          height: 40.h,
+                                          image: NetworkImage(homeController.getCoverSong(song['songName'], song['artistName'])),
+                                          fit: BoxFit.cover,
+                                        ),
+
                                 );
                               }),
                               SizedBox(

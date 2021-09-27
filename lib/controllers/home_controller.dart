@@ -8,12 +8,14 @@ import 'package:volume_watcher/volume_watcher.dart';
 
 class HomeController extends GetxController{
   final Timer timer = Timer(Duration(milliseconds: 500), () {});
+  var audio;
   final assetsAudioPlayer = AssetsAudioPlayer();
   final RxString songName = ''.obs;
   final RxString artistName = ''.obs;
   final RxBool playing = false.obs;
   final RxDouble volume = 0.5.obs;
   final RxList playlist = [].obs;
+  final RxInt ts = DateTime.now().millisecondsSinceEpoch.obs;
 
   final RxMap covers = {}.obs;
 
@@ -23,16 +25,25 @@ class HomeController extends GetxController{
     initPlatformState();
 
     try {
-      var audio = Audio.liveStream(radioUrl,
+      audio = Audio.liveStream(
+          radioUrl,
           metas: Metas(
-            title: songName.value,
-            artist: artistName.value,
-          )
+            title:  "",
+            artist: "",
+          ),
       );
       assetsAudioPlayer.open(
           audio,
           autoStart: false,
-          showNotification: true
+          showNotification: true,
+          notificationSettings: NotificationSettings(
+              stopEnabled: false,
+              nextEnabled: false,
+              prevEnabled: false,
+              customPlayPauseAction: (player){
+                onTap();
+              }
+          ),
       );
     }catch(error){
 
@@ -92,11 +103,25 @@ class HomeController extends GetxController{
     try {
       var _playlist = await ApiClient.getListSongs();
       if (_playlist.length > 0) {
-        artistName(_playlist[0]['artistName']);
-        songName(_playlist[0]['songName']);
+        if (songName.value != _playlist[0]['songName']) {
+          artistName(_playlist[0]['artistName']);
+          songName(_playlist[0]['songName']);
+          ts(DateTime.now().millisecondsSinceEpoch);
+
+          var song = "$artistName - $songName";
+          covers[song] = 'https://c26.radioboss.fm/w/artwork/309.png?${ts.value.toString()}';
+
+          audio.updateMetas(
+            // player: assetsAudioPlayer,
+            title: songName.value,
+            artist: artistName.value,
+            image: MetasImage.network('https://c26.radioboss.fm/w/artwork/309.png?${ts.value.toString()}'),
+          );
+        }
       }
       playlist(_playlist);
     } catch(error){
+      print('Nofitication');
       print(error);
     }
   }

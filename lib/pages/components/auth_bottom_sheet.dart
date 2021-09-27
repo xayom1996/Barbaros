@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:radiobarbaros/controllers/auth_controller.dart';
 import 'package:radiobarbaros/theme/color_theme.dart';
@@ -28,9 +29,9 @@ class _AuthBottomSheetState extends State<AuthBottomSheet> {
           centerTitle: true,
           title: Padding(
             padding: EdgeInsets.all(16.sp),
-            child: Image(
+            child: SvgPicture.asset(
+              'assets/Logo-Barbaros-FINAL.svg',
               width: MediaQuery.of(context).size.width / 2,
-              image: AssetImage('assets/Logo Barbaros FINAL.png'),
               fit: BoxFit.cover,
             ),
           ),

@@ -9,6 +9,8 @@ buildscript {
         classpath 'com.android.tools.build:gradle:4.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.10'
+        classpath 'com.github.bumptech.glide:glide:4.9.0'
+        classpath 'com.github.bumptech.glide:compiler:4.9.0'
     }
 }
 

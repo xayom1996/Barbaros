@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:radiobarbaros/constants.dart';
+import 'package:radiobarbaros/controllers/auth_controller.dart';
 
 class ChatController extends GetxController{
   User? user;
@@ -22,17 +23,25 @@ class ChatController extends GetxController{
 
   Stream<List<types.Room>> rooms({bool orderByUpdatedAt = false}) {
     final User? firebaseUser = FirebaseAuth.instance.currentUser;
+    final AuthController authController = Get.find(tag: 'auth');
+    List<String> whereNotIn = [];
 
     if (firebaseUser == null) return const Stream.empty();
+    String userUid = firebaseUser.uid;
+
+    if (authController.currentUser.value!.role == types.Role.admin) {
+      userUid = adminUserId;
+      whereNotIn.add(firebaseUser.uid);
+    }
 
     final collection = orderByUpdatedAt
         ? FirebaseFirestore.instance
         .collection('rooms')
-        .where('userIds', arrayContains: firebaseUser.uid)
+        .where('userIds', arrayContains: userUid)
         .orderBy('updatedAt', descending: true)
         : FirebaseFirestore.instance
         .collection('rooms')
-        .where('userIds', arrayContains: firebaseUser.uid);
+        .where('userIds', arrayContains: userUid);
 
     return collection
         .snapshots()

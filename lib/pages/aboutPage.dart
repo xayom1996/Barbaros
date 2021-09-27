@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:radiobarbaros/theme/color_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,9 +15,9 @@ class AboutPage extends StatelessWidget{
         centerTitle: true,
         title: Padding(
           padding: EdgeInsets.all(16.sp),
-          child: Image(
+          child: SvgPicture.asset(
+            'assets/Logo-Barbaros-FINAL.svg',
             width: MediaQuery.of(context).size.width / 2,
-            image: AssetImage('assets/Logo Barbaros FINAL.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -37,7 +39,7 @@ class AboutPage extends StatelessWidget{
             ),
             InkWell(
               onTap: () {
-                _launchURL('https://radiobarbaros.com/');
+                _launchURL('https://www.facebook.com/groups/radiobarbaros');
               },
               child: Image(
                 width: 50.w,
@@ -57,7 +59,7 @@ class AboutPage extends StatelessWidget{
             ),
             InkWell(
               onTap: () {
-                _launchURL('https://radiobarbaros.com/');
+                _launchURL('https://youtube.com/channel/UCL78bVyALbhFRAPeIfltIkg');
               },
               child: Image(
                 width: 50.w,
@@ -67,7 +69,7 @@ class AboutPage extends StatelessWidget{
             ),
             InkWell(
               onTap: () {
-                _launchURL('https://radiobarbaros.com/');
+                _launchURL('https://vk.com/radiobarbaros');
               },
               child: Image(
                 width: 50.w,

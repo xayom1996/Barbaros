@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:radiobarbaros/controllers/home_controller.dart';
 import 'package:radiobarbaros/theme/color_theme.dart';
@@ -22,9 +23,9 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
         title: Padding(
           padding: EdgeInsets.all(16.sp),
-          child: Image(
+          child: SvgPicture.asset(
+            'assets/Logo-Barbaros-FINAL.svg',
             width: MediaQuery.of(context).size.width / 2,
-            image: AssetImage('assets/Logo Barbaros FINAL.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -50,23 +51,18 @@ class HomePage extends StatelessWidget {
                 child: Obx(() {
                   var coverSong = homeController.getCoverSong('', '');
 
-                  return Container(
-                    decoration: new BoxDecoration(
-                        image: coverSong == '' || coverSong == null
-                            ? DecorationImage(
-                              alignment: FractionalOffset.topCenter,
-                              fit: BoxFit.fitWidth,
-                              image: AssetImage('assets/no-cover-wh.png')
-                              // image: AssetImage('assets/cover_image.jpg')
-                            )
-                            : DecorationImage(
-                              fit: BoxFit.fitWidth,
-                              alignment: FractionalOffset.topCenter,
-                              // image: AssetImage('assets/no-cover-wh.png')
-                              image: NetworkImage(homeController.getCoverSong('', ''))
-                            ),
-                    ),
-                  );
+                  return coverSong == '' || coverSong == null
+                      ? SvgPicture.asset(
+                        'assets/no-cover-wh.svg',
+                        fit: BoxFit.fitWidth,
+                        alignment: FractionalOffset.topCenter,
+                      )
+                      : Image(
+                          fit: BoxFit.fitWidth,
+                          alignment: FractionalOffset.topCenter,
+                          // image: AssetImage('assets/no-cover-wh.png')
+                          image: NetworkImage(homeController.getCoverSong('', ''))
+                      );
                 })
             ),
           ),
@@ -121,15 +117,15 @@ class HomePage extends StatelessWidget {
             onTap: () {
               homeController.onTap();
             },
-            child: homeController.playing.value
-                ? Image(
+            child: !homeController.playing.value
+                ? SvgPicture.asset(
+                    'assets/play.svg',
                     width: MediaQuery.of(context).size.width / 4,
-                    image: playImg,
                     fit: BoxFit.cover,
                   )
-                : Image(
+                : SvgPicture.asset(
+                    'assets/pause.svg',
                     width: MediaQuery.of(context).size.width / 4,
-                    image: pauseImg,
                     fit: BoxFit.cover,
                   )
           )),

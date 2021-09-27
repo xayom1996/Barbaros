@@ -29,7 +29,7 @@ class ChatsList extends StatelessWidget{
           );
         }
 
-        if (authController.currentUser.value!.id != adminUserId){
+        if (authController.currentUser.value!.role != types.Role.admin){
           return ChatWidget(room: snapshot.data![0],);
         }
 

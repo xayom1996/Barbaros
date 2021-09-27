@@ -31,7 +31,7 @@ class ApiClient {
 
     final objJson = jsonDecode(response.body);
     List<Map> songsInfo = [];
-    print(objJson);
+
     for (var song in objJson){
       var songInfo = {};
       var title = HtmlUnescape().convert(song['title']);

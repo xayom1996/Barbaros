@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:radiobarbaros/controllers/dashboard_controller.dart';
@@ -40,17 +41,8 @@ class DashboardPage extends StatelessWidget {
 
 class MyNavBar extends StatelessWidget{
   final List<Widget> icons;
-
   MyNavBar({Key? key, required this.icons}) : super(key: key);
 
-  final ImageProvider home = AssetImage('assets/BarbarosElements/Asset 9.png');
-  final ImageProvider homeActive = AssetImage('assets/BarbarosElements/Asset 13.png');
-  final ImageProvider playlist = AssetImage("assets/BarbarosElements/Asset 8.png");
-  final ImageProvider playlistActive = AssetImage("assets/BarbarosElements/Asset 12.png");
-  final ImageProvider chat = AssetImage("assets/BarbarosElements/Asset 7.png");
-  final ImageProvider chatActive = AssetImage("assets/BarbarosElements/Asset 11.png");
-  final ImageProvider other = AssetImage("assets/BarbarosElements/Asset 6.png");
-  final ImageProvider otherActive = AssetImage("assets/BarbarosElements/Asset 10.png");
   final DashboardController dashboardController = Get.find(tag: 'dashboard');
 
   @override
@@ -69,17 +61,13 @@ class MyNavBar extends StatelessWidget{
               child: SizedBox(
                 width: 30.w,
                 height: 30.h,
-                child: dashboardController.tabIndex.value == 0
-                    ? Image(
-                        width: 25.w,
-                        image: homeActive,
-                        // fit: BoxFit.cover,
-                      )
-                    : Image(
-                        width: 25.w,
-                        image: home
-                        // fit: BoxFit.cover,
-                      ),
+                child: SvgPicture.asset(
+                    'assets/icon_play.svg',
+                    width: 25.w,
+                    color: dashboardController.tabIndex.value == 0
+                        ? orange1
+                        : mainColor
+                ),
               ),
             ),
             InkWell(
@@ -87,17 +75,13 @@ class MyNavBar extends StatelessWidget{
               child: SizedBox(
                 width: 30.w,
                 height: 40.h,
-                child: dashboardController.tabIndex.value == 1
-                    ? Image(
-                      width: 25.w,
-                      image: playlistActive
-                      // fit: BoxFit.cover,
-                    )
-                    : Image(
-                      width: 25.w,
-                      image: playlist
-                      // fit: BoxFit.cover,
-                    ),
+                child: SvgPicture.asset(
+                    'assets/icon_playlist.svg',
+                    width: 25.w,
+                    color: dashboardController.tabIndex.value == 1
+                        ? orange1
+                        : mainColor
+                ),
               ),
             ),
             InkWell(
@@ -105,35 +89,27 @@ class MyNavBar extends StatelessWidget{
               child: SizedBox(
                 width: 30.w,
                 height: 40.h,
-                child: dashboardController.tabIndex.value == 2
-                    ? Image(
-                      width: 25.w,
-                      image: chatActive
-                      // fit: BoxFit.cover,
-                    )
-                    : Image(
-                      width: 25.w,
-                      image: chat
-                      // fit: BoxFit.cover,
-                    ),
+                child: SvgPicture.asset(
+                    'assets/icon_chat.svg',
+                    width: 25.w,
+                    color: dashboardController.tabIndex.value == 2
+                        ? orange1
+                        : mainColor
+                ),
               ),
             ),
-            GestureDetector(
+            InkWell(
               onTap: () => dashboardController.changeTabIndex(3),
               child: SizedBox(
                 width: 30.w,
                 height: 40.h,
-                child: dashboardController.tabIndex.value == 3
-                    ? Image(
-                      width: 25.w,
-                      image: otherActive
-                      // fit: BoxFit.cover,
-                    )
-                    : Image(
-                      width: 25.w,
-                      image: other
-                      // fit: BoxFit.cover,
-                    ),
+                child: SvgPicture.asset(
+                    'assets/icon_about.svg',
+                    width: 25.w,
+                    color: dashboardController.tabIndex.value == 3
+                        ? orange1
+                        : mainColor
+                ),
               ),
             ),
           ],

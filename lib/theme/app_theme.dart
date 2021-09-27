@@ -10,7 +10,7 @@ enum AppTheme {
 final appThemeData = {
   AppTheme.RedLight: ThemeData(
     brightness: Brightness.light,
-    primaryColor: primaryRed,
+    primaryColor: mainColor,
     scaffoldBackgroundColor: white1,
     primaryColorLight: white2,
     primaryColorDark: secondaryDBlue,

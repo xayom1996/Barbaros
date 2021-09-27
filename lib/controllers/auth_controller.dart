@@ -5,6 +5,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:get/get.dart';
 import 'package:radiobarbaros/controllers/chat_controller.dart';
 import 'package:radiobarbaros/controllers/dashboard_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthController extends GetxController{
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -27,19 +28,21 @@ class AuthController extends GetxController{
       if (firebaseUser.value != null) {
         userId(firebaseUser.value!.uid);
         print('Init');
-        print(types.User.fromJson(await fetchUser(userId.value, 'users')));
-        currentUser.value = types.User.fromJson(await fetchUser(userId.value, 'users'));
+        await getCurrentUser();
       }
-      print(currentUser);
+      // print(currentUser);
     } catch (e) {
       print('Init');
       print(e);
     }
   }
 
-  void getCurrentUser() async{
-    print(types.User.fromJson(await fetchUser(userId.value, 'users')));
-    currentUser(types.User.fromJson(await fetchUser(userId.value, 'users')));
+  Future<void> getCurrentUser() async{
+    try {
+      currentUser(types.User.fromJson(await fetchUser(userId.value, 'users')));
+    } catch(e){
+      print(e);
+    }
   }
 
   void register(String displayName) async {
@@ -76,10 +79,11 @@ class AuthController extends GetxController{
       final AuthController authController = Get.find(tag: 'auth');
       final DashboardController dashboardController = Get.find(tag: 'dashboard');
       authController.userId(firebaseUser.value!.uid);
-      authController.getCurrentUser();
+      await authController.getCurrentUser();
       dashboardController.changeTabIndex(2);
       Get.back();
     } catch (e) {
+      print('Failed to sign in: $e');
       // showSnackbar("Failed to sign in: " + e.toString());
       Get.snackbar('', "Failed to sign in");
     } finally{
@@ -122,6 +126,24 @@ class AuthController extends GetxController{
       Get.snackbar('', 'Failed to Verify Phone Number');
     }
     loading(false);
+  }
+
+  Future<Map<String, dynamic>> fetchUser(
+      String userId,
+      String usersCollectionName) async {
+    final doc = await FirebaseFirestore.instance
+        .collection(usersCollectionName)
+        .doc(userId)
+        .get();
+
+    final data = doc.data()!;
+
+    data['createdAt'] = data['createdAt']?.millisecondsSinceEpoch;
+    data['id'] = doc.id;
+    data['lastSeen'] = data['lastSeen']?.millisecondsSinceEpoch;
+    data['updatedAt'] = data['updatedAt']?.millisecondsSinceEpoch;
+
+    return data;
   }
 
   void logout() async {
