@@ -1,41 +1,70 @@
 {
   "project_info": {
-    "project_number": "352017292049",
-    "project_id": "radiobarbaros",
-    "storage_bucket": "radiobarbaros.appspot.com"
+    "project_number": "480759467031",
+    "project_id": "radio-barbaros",
+    "storage_bucket": "radio-barbaros.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:352017292049:android:017ad1c6997563c7c6cab0",
+        "mobilesdk_app_id": "1:480759467031:android:adf73e26121cbd45f76052",
         "android_client_info": {
-          "package_name": "com.example.radiobarbaros"
+          "package_name": "com.example.barbaros"
         }
       },
       "oauth_client": [
         {
-          "client_id": "352017292049-ap82s3qppbfetnifqg0r8u723jcoegjr.apps.googleusercontent.com",
+          "client_id": "480759467031-nbd62qqe8troegaapg3fi41vk8uv58k0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.radiobarbaros",
+            "package_name": "com.example.barbaros",
             "certificate_hash": "52294cfbff2ba2a1dd387b74030606d404ef48e9"
           }
         },
         {
-          "client_id": "352017292049-ef09e37s6h7ishnaml7rel2m3lcuonur.apps.googleusercontent.com",
+          "client_id": "480759467031-qrvisvbkv5u21v37vjkcrfnrd5883pbf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDjQDZeQ-psuwuW7-H4B9XoSQzFcF8bwmc"
+          "current_key": "AIzaSyAULDb-vw5SApQYW4vfXmR6B1dcEervqAY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "352017292049-ef09e37s6h7ishnaml7rel2m3lcuonur.apps.googleusercontent.com",
+              "client_id": "480759467031-qrvisvbkv5u21v37vjkcrfnrd5883pbf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480759467031:android:a59c3f6f79f7f9abf76052",
+        "android_client_info": {
+          "package_name": "com.example.radiobarbaros"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "480759467031-qrvisvbkv5u21v37vjkcrfnrd5883pbf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAULDb-vw5SApQYW4vfXmR6B1dcEervqAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "480759467031-qrvisvbkv5u21v37vjkcrfnrd5883pbf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
