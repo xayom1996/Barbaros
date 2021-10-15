@@ -54,6 +54,7 @@ dependencies:
   open_file: ^3.2.1
   path_provider: ^2.0.2
   html_unescape: ^2.0.0
+  cloud_firestore: ^2.5.3
 
 dev_dependencies:
   flutter_test:

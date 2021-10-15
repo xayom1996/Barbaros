@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.radiobarbaros">
+    package="com.radio.barbaros">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="radiobarbaros"
+        android:label="Radio Barbaros"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
