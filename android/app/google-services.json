@@ -1,49 +1,49 @@
 {
   "project_info": {
-    "project_number": "480759467031",
-    "project_id": "radio-barbaros",
-    "storage_bucket": "radio-barbaros.appspot.com"
+    "project_number": "1038026521942",
+    "project_id": "radio-barbaros-2022",
+    "storage_bucket": "radio-barbaros-2022.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:480759467031:android:adf73e26121cbd45f76052",
+        "mobilesdk_app_id": "1:1038026521942:android:5f12cfeee96e7798836af7",
         "android_client_info": {
           "package_name": "com.radio.barbaros"
         }
       },
       "oauth_client": [
         {
-          "client_id": "480759467031-8is99tnvpntf53cr9ocqm7rfh2joqnep.apps.googleusercontent.com",
+          "client_id": "1038026521942-otnmkv1qsovmos7vs6no21n3da7354bv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.barbaros",
+            "package_name": "com.radio.barbaros",
             "certificate_hash": "11f92859f3a726727b4170a32128ecfd32a23792"
           }
         },
         {
-          "client_id": "480759467031-nbd62qqe8troegaapg3fi41vk8uv58k0.apps.googleusercontent.com",
+          "client_id": "1038026521942-p4sq36290hjg5dhjqtlem40idr1std5f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.barbaros",
+            "package_name": "com.radio.barbaros",
             "certificate_hash": "52294cfbff2ba2a1dd387b74030606d404ef48e9"
           }
         },
         {
-          "client_id": "480759467031-qrvisvbkv5u21v37vjkcrfnrd5883pbf.apps.googleusercontent.com",
+          "client_id": "1038026521942-pm8i9vrvkksrj7nfr3l0rofrneohk000.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAULDb-vw5SApQYW4vfXmR6B1dcEervqAY"
+          "current_key": "AIzaSyCSuAaK6eXVcobDCArHUWD3pJ7TIPPcMkM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "480759467031-qrvisvbkv5u21v37vjkcrfnrd5883pbf.apps.googleusercontent.com",
+              "client_id": "1038026521942-pm8i9vrvkksrj7nfr3l0rofrneohk000.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

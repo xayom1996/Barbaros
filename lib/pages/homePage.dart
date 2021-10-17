@@ -49,22 +49,26 @@ class HomePage extends StatelessWidget {
             child: AspectRatio(
                 aspectRatio: 0.8.sw / 0.35.sh,
                 child: Obx(() {
-                  var coverSong = homeController.getCoverSong('', '');
-
-                  return coverSong == '' || coverSong == null
-                      ? SvgPicture.asset(
-                        'assets/no-cover-wh.svg',
-                        fit: BoxFit.fitWidth,
-                        alignment: FractionalOffset.topCenter,
-                      )
-                      : Image(
+                  print('https://c26.radioboss.fm/w/artwork/309.png?${homeController
+                      .ts.value.toString()}');
+                  return Image(
+                      fit: BoxFit.fitWidth,
+                      alignment: FractionalOffset.topCenter,
+                      errorBuilder: (context, error, stackTrace) {
+                        homeController.ts(DateTime.now().millisecondsSinceEpoch);
+                        return SvgPicture.asset(
+                          'assets/no-cover-wh.svg',
                           fit: BoxFit.fitWidth,
                           alignment: FractionalOffset.topCenter,
-                          // image: AssetImage('assets/no-cover-wh.png')
-                          image: NetworkImage(homeController.getCoverSong('', ''))
-                      );
-                })
-            ),
+                        );
+                      },
+                      image: NetworkImage(
+                          'https://c26.radioboss.fm/w/artwork/309.png?${homeController
+                              .ts.value.toString()}')
+                  );
+                }
+            )
+            )
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 22.sp),

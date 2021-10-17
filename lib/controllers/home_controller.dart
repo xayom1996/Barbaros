@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:radiobarbaros/constants.dart';
 import 'package:radiobarbaros/repository/api_client.dart';
 import 'package:volume_watcher/volume_watcher.dart';
+import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController{
   final Timer timer = Timer(Duration(milliseconds: 500), () {});
@@ -12,6 +13,7 @@ class HomeController extends GetxController{
   final assetsAudioPlayer = AssetsAudioPlayer();
   final RxString songName = ''.obs;
   final RxString artistName = ''.obs;
+  final RxString mainImage = ''.obs;
   final RxBool playing = false.obs;
   final RxDouble volume = 0.5.obs;
   final RxList playlist = [].obs;
@@ -102,14 +104,25 @@ class HomeController extends GetxController{
   void getListSongs() async{
     try {
       var _playlist = await ApiClient.getListSongs();
-      if (_playlist.length > 0) {
+      if (_playlist.isNotEmpty) {
         if (songName.value != _playlist[0]['songName']) {
           artistName(_playlist[0]['artistName']);
           songName(_playlist[0]['songName']);
-          ts(DateTime.now().millisecondsSinceEpoch);
 
-          var song = "$artistName - $songName";
-          covers[song] = 'https://c26.radioboss.fm/w/artwork/309.png?${ts.value.toString()}';
+          ts(DateTime.now().millisecondsSinceEpoch);
+          // while(true){
+          //   ts(DateTime.now().millisecondsSinceEpoch);
+          //   String imgUrl = 'https://c26.radioboss.fm/w/artwork/309.png?${ts.value.toString()}';
+          //   try {
+          //     var response = await http.get(Uri.parse(imgUrl));
+          //     if (response.statusCode == 200) {
+          //       break;
+          //     }
+          //   }catch(e){
+          //
+          //   }
+          // }
+          // mainImage('https://c26.radioboss.fm/w/artwork/309.png?${ts.value.toString()}');
 
           audio.updateMetas(
             // player: assetsAudioPlayer,
