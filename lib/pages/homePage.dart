@@ -40,7 +40,6 @@ class HomePage extends StatelessWidget {
           ),
           VolumeWatcher(
             onVolumeChangeListener: (double volume) {
-              print(volume);
               homeController.onChangeVolume(volume);
             },
           ),

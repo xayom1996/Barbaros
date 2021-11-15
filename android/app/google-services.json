@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "1038026521942-vqpgp0065a3br8jrt160jn99nr2fruj1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.radio.barbaros",
+            "certificate_hash": "8c810fa3692b451d9d783b824336868156c64ad8"
+          }
+        },
+        {
           "client_id": "1038026521942-pm8i9vrvkksrj7nfr3l0rofrneohk000.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -45,6 +53,13 @@
             {
               "client_id": "1038026521942-pm8i9vrvkksrj7nfr3l0rofrneohk000.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1038026521942-80fo7lt5356slohuovuu23nt25tgdfm7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.radio.barbaros"
+              }
             }
           ]
         }
