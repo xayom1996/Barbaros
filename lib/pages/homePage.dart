@@ -54,7 +54,8 @@ class HomePage extends StatelessWidget {
                       fit: BoxFit.fitWidth,
                       alignment: FractionalOffset.topCenter,
                       errorBuilder: (context, error, stackTrace) {
-                        homeController.ts(DateTime.now().millisecondsSinceEpoch);
+                        // homeController.changeTime();
+                        print('ERRoRRR');
                         return SvgPicture.asset(
                           'assets/no-cover-wh.svg',
                           fit: BoxFit.fitWidth,

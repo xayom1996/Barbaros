@@ -109,7 +109,8 @@ class HomeController extends GetxController{
           artistName(_playlist[0]['artistName']);
           songName(_playlist[0]['songName']);
 
-          ts(DateTime.now().millisecondsSinceEpoch);
+          changeTime();
+
           // while(true){
           //   ts(DateTime.now().millisecondsSinceEpoch);
           //   String imgUrl = 'https://c26.radioboss.fm/w/artwork/309.png?${ts.value.toString()}';
@@ -169,5 +170,11 @@ class HomeController extends GetxController{
     }finally{
 
     }
+  }
+
+  void changeTime(){
+    Timer(Duration(milliseconds: 500), () {
+      ts(DateTime.now().millisecondsSinceEpoch);
+    });
   }
 }

@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,9 +7,7 @@ import 'package:radiobarbaros/theme/app_theme.dart';
 import 'package:radiobarbaros/controllers/dashboard_bindings.dart';
 
 void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  await Firebase.initializeApp();
 
   runApp(const MyApp());
 }

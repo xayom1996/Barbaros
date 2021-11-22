@@ -1,11 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:radiobarbaros/controllers/chat_controller.dart';
-import 'package:radiobarbaros/controllers/auth_controller.dart';
-import 'package:radiobarbaros/pages/components/auth_bottom_sheet.dart';
-import 'package:radiobarbaros/pages/components/chats_list.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:radiobarbaros/theme/color_theme.dart';
 import 'package:radiobarbaros/theme/text_theme.dart';
 
@@ -16,84 +15,347 @@ class ChatPage extends StatefulWidget{
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final ChatController chatController = Get.find(tag: 'chat');
-  final AuthController authController = Get.find(tag: 'auth');
-  final TextEditingController _nameController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
+  List<String> attachments = [];
+  String attachment = '';
+  bool isHTML = true;
+
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _messageController = TextEditingController();
+
+  final _subjectController = TextEditingController(text: '');
+
+  final _bodyController = TextEditingController(
+    text: '',
+  );
+
+  Future<void> send() async {
+
+    var body = """
+    <b>Name:</b> ${_nameController.text}<p></p>
+    <b>Email:</b> ${_emailController.text}<p></p>
+    <b>Phone:</b> ${_phoneController.text}<p></p>
+    <b>Message:</b> ${_messageController.text}<p></p>
+    """;
+
+    final Email email = Email(
+      body: body,
+      subject: 'Message from Mobile App',
+      recipients: ['app@radiobarbaros.com'],
+      attachmentPaths: attachment != '' ? [attachment] : [],
+      isHTML: isHTML,
+    );
+
+    String platformResponse;
+
+    try {
+      await FlutterEmailSender.send(email);
+      platformResponse = 'success';
+    } catch (error) {
+      platformResponse = error.toString();
+    }
+
+    if (!mounted) return;
+
+    _nameController.text = '';
+    _emailController.text = '';
+    _phoneController.text = '';
+    _messageController.text = '';
+    attachment = '';
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(platformResponse),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        titleTextStyle: appBarTitle,
-        title: Text('Chat', style: appBarTitle),
-        actions: [
-            IconButton(
-              icon: const Icon(Icons.logout),
-              color: Colors.black,
-              onPressed: (){
-                authController.logout();
-              },
+    return GestureDetector(
+      onTap: (){
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Padding(
+            padding: EdgeInsets.all(16.sp),
+            child: SvgPicture.asset(
+              'assets/Logo-Barbaros-FINAL.svg',
+              width: MediaQuery.of(context).size.width / 2,
+              fit: BoxFit.cover,
             ),
-      ],
-      ),
-      body: Obx(() => authController.loading == true
-            ? Center(
-              child: CircularProgressIndicator(),
-            )
-            : authController.currentUser.value == null
-              ? Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Spacer(),
-                    if (authController.userId.value == '')
-                      Column(
-                        children: [
-                          const Text('Not authenticated'),
-                          TextButton(
-                            onPressed: () {
-                              Get.bottomSheet(AuthBottomSheet());
-                            },
-                            child: const Text('Login'),
-                          ),
-                        ],
-                      )
-                    else
-                      Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(16),
-                            child: TextFormField(
-                              controller: _nameController,
-                              decoration: const InputDecoration(labelText: 'Display Name'),
-                            ),
-                          ),
-                          RaisedButton(
-                            color: mainColor,
-                            child: Text("Enter", style: TextStyle(color: Colors.white,),),
-                            onPressed: () async{
-                              print(_nameController.text);
-                              if (_nameController.text != ''){
-                                authController.register(_nameController.text);
-                              }
-                            },
-                          ),
-                        ],
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(8.sp),
+            child: Column(
+              // mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.sp,
+                    vertical: 4.sp,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Name',
+                        style: kPlayListArtistTextStyle,
                       ),
-                    Spacer(),
-                  ],
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      TextField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8.sp),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: mainColor, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          hintText: 'Ad',
+                          hintStyle: kPlayListArtistTextStyle.copyWith(
+                            color: Colors.grey
+                          ),
+                          // labelText: 'Recipient',
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              )
-              : ChatsList()
-      )
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.sp,
+                    vertical: 4.sp,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Email',
+                        style: kPlayListArtistTextStyle,
+                      ),
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      TextField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8.sp),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: mainColor, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          hintText: 'E-posta',
+                          hintStyle: kPlayListArtistTextStyle.copyWith(
+                              color: Colors.grey
+                          ),
+                          // labelText: 'Recipient',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.sp,
+                    vertical: 4.sp,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Telephone',
+                        style: kPlayListArtistTextStyle,
+                      ),
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      TextField(
+                        controller: _phoneController,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8.sp),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: mainColor, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          hintText: 'Telefone',
+                          hintStyle: kPlayListArtistTextStyle.copyWith(
+                              color: Colors.grey
+                          ),
+                          // labelText: 'Recipient',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.sp,
+                    vertical: 4.sp,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Message',
+                        style: kPlayListArtistTextStyle,
+                      ),
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      TextField(
+                        controller: _messageController,
+                        maxLines: 5,
+                        // expands: true,
+                        textAlignVertical: TextAlignVertical.top,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8.sp),
+                          hintText: 'Messaj',
+                          hintStyle: kPlayListArtistTextStyle.copyWith(
+                              color: Colors.grey
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: mainColor, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // CheckboxListTile(
+                //   contentPadding:
+                //   EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+                //   title: Text('HTML'),
+                //   onChanged: (bool? value) {
+                //     if (value != null) {
+                //       setState(() {
+                //         isHTML = value;
+                //       });
+                //     }
+                //   },
+                //   value: isHTML,
+                // ),
+                if (attachment != '')
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            attachment.split('/').last,
+                            softWrap: false,
+                            overflow: TextOverflow.fade,
+                            style: kPlayListArtistTextStyle,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.remove_circle),
+                          onPressed: () => {_removeAttachment()},
+                        )
+                      ],
+                    ),
+                  ),
+                if (attachment == '')
+                  Padding(
+                    padding: EdgeInsets.all(8.sp),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                        child: Text(
+                          'File(≤5Mb)',
+                          style: kPlayListArtistTextStyle,
+                        )
+                    ),
+                  ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          _openImagePicker();
+                        },
+                        child: Container(
+                          child: Image.asset(
+                            'assets/BarbarosElements/upload_file.jpg',
+                            height: 50.h,
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      InkWell(
+                        onTap: () async{
+                          await send();
+                        },
+                        child: Image.asset(
+                          'assets/BarbarosElements/send_email.jpg',
+                          height: 50.h,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
+  }
+
+  void _openImagePicker() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+      if (result != null) {
+        double size = result.files.first.size / 1024 / 1024;
+        if (size <= 5) {
+          setState(() {
+            attachment = result.files.first.path!;
+          });
+        }
+        else{
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('File should not exceed 5 mb'),
+            ),
+          );
+        }
+      }
+    }catch(e){
+
+    }
+
+  }
+
+  void _removeAttachment() {
+    setState(() {
+      attachment = '';
+    });
   }
 }
