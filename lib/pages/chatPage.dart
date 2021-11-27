@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:radiobarbaros/theme/color_theme.dart';
 import 'package:radiobarbaros/theme/text_theme.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 
 class ChatPage extends StatefulWidget{
 
@@ -19,19 +24,14 @@ class _ChatPageState extends State<ChatPage> {
   List<String> attachments = [];
   String attachment = '';
   bool isHTML = true;
+  RxBool sendButtonActive = true.obs;
 
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _messageController = TextEditingController();
 
-  final _subjectController = TextEditingController(text: '');
-
-  final _bodyController = TextEditingController(
-    text: '',
-  );
-
-  Future<void> send() async {
+  Future<void> sendEmail() async {
 
     var body = """
     <b>Name:</b> ${_nameController.text}<p></p>
@@ -40,36 +40,85 @@ class _ChatPageState extends State<ChatPage> {
     <b>Message:</b> ${_messageController.text}<p></p>
     """;
 
-    final Email email = Email(
-      body: body,
-      subject: 'Message from Mobile App',
-      recipients: ['app@radiobarbaros.com'],
-      attachmentPaths: attachment != '' ? [attachment] : [],
-      isHTML: isHTML,
-    );
+    String username = 'barbarosradyo@gmail.com';
+    String password = 'Paracard481';
 
-    String platformResponse;
+    final smtpServer = gmail(username, password);
+
+    final equivalentMessage = Message()
+      ..from = Address(_emailController.text)
+      ..recipients.add(Address('app@radiobarbaros.com'))
+      ..subject = 'Message from Mobile App'
+      ..text = body
+      ..html = body
+      ..attachments = attachment != ''
+          ? [
+              FileAttachment(File(attachment))
+                ..location = Location.inline
+                ..cid = '<myimg@3.141>'
+            ]
+          : [];
 
     try {
-      await FlutterEmailSender.send(email);
-      platformResponse = 'success';
-    } catch (error) {
-      platformResponse = error.toString();
+      final sendReport2 = await send(equivalentMessage, smtpServer);
+      clearFields();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Message successfully sent'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } on MailerException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Message not sent.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally{
+      sendButtonActive(true);
     }
 
-    if (!mounted) return;
+    // final Email email = Email(
+    //   body: body,
+    //   subject: 'Message from Mobile App',
+    //   recipients: ['app@radiobarbaros.com'],
+    //   attachmentPaths: attachment != '' ? [attachment] : [],
+    //   isHTML: isHTML,
+    // );
+    //
+    // String platformResponse;
+    //
+    // try {
+    //   await FlutterEmailSender.send(email);
+    //   platformResponse = 'success';
+    // } catch (error) {
+    //   platformResponse = error.toString();
+    // }
+    //
+    // if (!mounted) return;
+    //
+    // _nameController.text = '';
+    // _emailController.text = '';
+    // _phoneController.text = '';
+    // _messageController.text = '';
+    // attachment = '';
+    //
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   SnackBar(
+    //     content: Text(platformResponse),
+    //   ),
+    // );
+  }
 
-    _nameController.text = '';
-    _emailController.text = '';
-    _phoneController.text = '';
-    _messageController.text = '';
-    attachment = '';
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(platformResponse),
-      ),
-    );
+  void clearFields(){
+    setState(() {
+      _nameController.text = '';
+      _emailController.text = '';
+      _phoneController.text = '';
+      _messageController.text = '';
+      attachment = '';
+    });
   }
 
   @override
@@ -311,7 +360,10 @@ class _ChatPageState extends State<ChatPage> {
                       Spacer(),
                       InkWell(
                         onTap: () async{
-                          await send();
+                          if (sendButtonActive.value) {
+                            sendButtonActive(false);
+                            await sendEmail();
+                          }
                         },
                         child: Image.asset(
                           'assets/BarbarosElements/send_email.jpg',

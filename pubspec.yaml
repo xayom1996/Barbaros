@@ -48,7 +48,10 @@ dependencies:
   open_file: ^3.2.1
   path_provider: ^2.0.2
   html_unescape: ^2.0.0
-  flutter_email_sender: ^5.0.2
+  mailer: ^5.0.2
+  audioplayers: ^0.20.1
+  audio_service: ^0.18.1
+  just_audio: ^0.9.18
 
 dev_dependencies:
   flutter_test:
@@ -58,8 +61,8 @@ dev_dependencies:
 flutter_icons:
   ios: true
   android: true
-  image_path_ios: "assets/icon.png"
-  image_path_android: "assets/icon.png"
+  image_path_ios: "assets/logo.png"
+  image_path_android: "assets/logo.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
