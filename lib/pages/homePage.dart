@@ -45,31 +45,29 @@ class HomePage extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 32.sp),
-            child: AspectRatio(
-                aspectRatio: 0.8.sw / 0.35.sh,
-                child: Obx(() {
-                  print('https://c26.radioboss.fm/w/artwork/309.png?${homeController
-                      .ts.value.toString()}');
-                  return Image(
+            child: Obx(() {
+              print('https://c26.radioboss.fm/w/artwork/309.png?${homeController
+                  .ts.value.toString()}');
+              return Image(
+                  fit: BoxFit.fitWidth,
+                  alignment: FractionalOffset.topCenter,
+                  errorBuilder: (context, error, stackTrace) {
+                    // homeController.changeTime();
+                    print('ERRoRRR');
+                    return SvgPicture.asset(
+                      'assets/no-cover-wh.svg',
                       fit: BoxFit.fitWidth,
                       alignment: FractionalOffset.topCenter,
-                      errorBuilder: (context, error, stackTrace) {
-                        // homeController.changeTime();
-                        print('ERRoRRR');
-                        return SvgPicture.asset(
-                          'assets/no-cover-wh.svg',
-                          fit: BoxFit.fitWidth,
-                          alignment: FractionalOffset.topCenter,
-                        );
-                      },
-                      image: NetworkImage(
-                          'https://c26.radioboss.fm/w/artwork/309.png?${homeController
-                              .ts.value.toString()}')
-                  );
-                }
-            )
+                    );
+                  },
+                  image: NetworkImage(
+                      'https://c26.radioboss.fm/w/artwork/309.png?${homeController
+                          .ts.value.toString()}')
+              );
+            }
             )
           ),
+          Spacer(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 22.sp),
             child: Obx(() => SliderTheme(
