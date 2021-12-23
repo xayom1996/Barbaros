@@ -49,7 +49,8 @@ class HomePage extends StatelessWidget {
               print('https://c26.radioboss.fm/w/artwork/309.png?${homeController
                   .ts.value.toString()}');
               return Image(
-                  fit: BoxFit.fitWidth,
+                  // fit: BoxFit.fitWidth,
+                  height: 0.35.sh,
                   alignment: FractionalOffset.topCenter,
                   errorBuilder: (context, error, stackTrace) {
                     // homeController.changeTime();
@@ -102,10 +103,14 @@ class HomePage extends StatelessWidget {
                     Text(
                       homeController.songName.value,
                       maxLines: 2,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
                       style: kSongTitleTextStyle,
                     ),
                     Text(
                       homeController.artistName.value,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
                       style: kSongArtistTextStyle,
                     ),
                   ],
