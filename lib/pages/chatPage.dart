@@ -11,14 +11,56 @@ import 'package:radiobarbaros/theme/color_theme.dart';
 import 'package:radiobarbaros/theme/text_theme.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ChatPage extends StatefulWidget{
+
+class ChatPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+        child: Scaffold(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/logo_turkish.png',
+                width: 0.5.sw,
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+              InkWell(
+                onTap: () {
+                  _launchURL('https://t.me/RadyoBarbaros');
+                },
+                child: Image(
+                  width: 0.4.sw,
+                  image: AssetImage('assets/telegram_transition.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _launchURL(String _url) async =>
+      await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
+
+}
+
+class ChatPage1 extends StatefulWidget{
 
   @override
   _ChatPageState createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends State<ChatPage1> {
 
   List<String> attachments = [];
   String attachment = '';
