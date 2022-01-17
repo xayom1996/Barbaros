@@ -25,21 +25,27 @@ class ChatPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/logo_turkish.png',
-                width: 0.5.sw,
+              Align(
+                alignment: Alignment.center,
+                child: Image.asset(
+                  'assets/logo_turkish.png',
+                  width: 0.5.sw,
+                ),
               ),
               SizedBox(
                 height: 16.h,
               ),
-              InkWell(
-                onTap: () {
-                  _launchURL('https://t.me/RadyoBarbaros');
-                },
-                child: Image(
-                  width: 0.4.sw,
-                  image: AssetImage('assets/telegram_transition.png'),
-                  fit: BoxFit.cover,
+              Align(
+                alignment: Alignment.center,
+                child: InkWell(
+                  onTap: () {
+                    _launchURL('https://t.me/RadyoBarbaros');
+                  },
+                  child: Image(
+                    width: 0.4.sw,
+                    image: AssetImage('assets/telegram_transition.png'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ],
